@@ -1,22 +1,37 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import {TransitionGroup, CSSTransition} from "react-transition-group";
+
+import proyectoContext from "../../context/proyectos/proyectoContext";
 
 import Proyecto from "./Proyecto";
 
 const ListadoProyectos = () => {
 
-    const proyectos = [
-        {nombre: 'Tienda Virtual'},
-        {nombre: 'Intranet'},
-        {nombre: 'Web Design'}
-    ]
+    const proyectosContext = useContext(proyectoContext);
+    const {proyectos, obtenerProyectosFn} = proyectosContext;
+
+    useEffect(() => {
+        obtenerProyectosFn();
+        // eslint-disable-next-line
+    }, []);
+
+    if(proyectos.length === 0 ) return <p>No hay proyectos, comienza creando uno</p>;
 
     return (
         <ul className="listado-proyectos">
-            {proyectos.map(proyecto => (
-                <Proyecto
-                    proyecto={proyecto}
-                />
-            ))}
+            <TransitionGroup>
+                {proyectos.map(proyecto => (
+                    <CSSTransition
+                        key={proyecto.id}
+                        timeout={200}
+                        classNames="proyecto"
+                    >
+                        <Proyecto
+                            proyecto={proyecto}
+                        />
+                    </CSSTransition>
+                ))}
+            </TransitionGroup>
         </ul>
     );
 };
