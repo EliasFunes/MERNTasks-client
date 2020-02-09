@@ -7,21 +7,21 @@ const Tarea = ({tarea}) => {
     const {
         eliminarTareaFn,
         obtenerTareasFn,
-        cambiarEstadoTareaFn,
-        guardarTareaActualFn
+        guardarTareaActualFn,
+        actualizarTareaFn
     } = tareasContext;
 
-    const {id, proyectoId} = tarea;
+    const {_id, proyecto} = tarea;
 
     const handleDeleteTask = () => {
-        eliminarTareaFn(id);
-        obtenerTareasFn(proyectoId);
+        eliminarTareaFn(_id, proyecto);
+        obtenerTareasFn(proyecto);
     }
 
     const handleChangeStateTask = completo => {
         tarea.estado = completo;
-        cambiarEstadoTareaFn(tarea);
-        obtenerTareasFn(proyectoId);
+        actualizarTareaFn(tarea);
+        obtenerTareasFn(proyecto);
     }
 
     const handleSelectTask = tarea => {
@@ -63,7 +63,6 @@ const Tarea = ({tarea}) => {
                     onClick={() => handleDeleteTask()}
                 >Eliminar</button>
             </div>
-
         </li>
     );
 };
